@@ -18,12 +18,20 @@ app.use('/', (req, res) => {
 var messages = [];
 
 io.on('connection', socket => {
-   console(`Socket Conectado: ${socket.id}`);
+   console.log(`Socket Conectado: ${socket.id}`);
 
     socket.on('sendMessage', data => {
         messages.push(data);
     });
 });
+
+io.on('disconnected', socket => {
+    console.log(`Socket Conexão encerrada ${socket.id}`)
+
+    socket.on('sendMessage', data => {
+        messages.push(data);
+    })
+})
 
 server.listen(3000);
 
